@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
-def recommend_semantic_reviews(review_id, df, embeddings, top_n=5):
+def recommend_semantic_reviews(review_id, df, embeddings, top_n=10):
     # Vérifier si l'ID existe
     if review_id not in df["ID"].values:
         print("❌ ID introuvable")
@@ -28,6 +28,6 @@ def recommend_semantic_reviews(review_id, df, embeddings, top_n=5):
 # Exemple d’utilisation
 if __name__ == "__main__":
     from vectoriser_embeddings import df, embeddings  # ton fichier qui charge embeddings
-    review_id = 58293937  # critique de départ
-    resultats = recommend_semantic_reviews(review_id, df, embeddings, top_n=5)
+    review_id = 308975541  # critique de départ
+    resultats = recommend_semantic_reviews(review_id, df, embeddings, top_n=10)
     print(resultats[["ID", "User", "Rating", "Titre", "Score"]])

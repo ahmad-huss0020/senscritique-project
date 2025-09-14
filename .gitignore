@@ -1,0 +1,32 @@
+# Environnements virtuels
+venv/
+.venv/
+ENV/
+env/
+
+# Fichiers temporaires Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+
+# Données temporaires
+*.npy
+*.npz
+*.pkl
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Config / cache locaux
+*.log
+*.DS_Store
+*.idea/
+*.vscode/
+*.mypy_cache/
+*.pytest_cache/
+.cache/
+.streamlit/

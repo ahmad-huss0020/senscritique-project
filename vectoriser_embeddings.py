@@ -2,34 +2,42 @@ import os
 import pandas as pd
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import streamlit as st
 
-# --- Choix du film ---
-# Change "fight_club_clean.csv" en "interstellar_clean.csv" si besoin
-FILM_FILE = "fight_club_clean.csv"
+@st.cache_resource
+def load_model():
+    """Charge le modèle Sentence-BERT une seule fois par session."""
+    return SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
-# Génération du nom du fichier cache embeddings
-BASE_DIR = os.path.dirname(__file__)
-EMBEDDINGS_FILE = os.path.join(BASE_DIR, FILM_FILE.replace(".csv", "_embeddings.npy"))
+@st.cache_data
+def load_embeddings(film_file: str):
+    """
+    Charge un dataset de critiques et ses embeddings (cache .npy + cache Streamlit).
+    film_file : str -> chemin du CSV (ex. "fight_club_clean.csv")
+    return : df (DataFrame), embeddings (numpy array)
+    """
+    BASE_DIR = os.path.dirname(__file__)
+    embeddings_file = os.path.join(BASE_DIR, film_file.replace(".csv", "_embeddings.npy"))
 
-# Charger critiques
-df = pd.read_csv(FILM_FILE)
-df = df.dropna(subset=["Critique"])
-df["Critique"] = df["Critique"].astype(str)
+    # Charger dataset
+    df = pd.read_csv(film_file)
+    df = df.dropna(subset=["Critique"])
+    df["Critique"] = df["Critique"].astype(str)
 
-# Charger modèle multilingue rapide (français + anglais)
-model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
-# Alternative plus précise mais plus lente : LaBSE
-# model = SentenceTransformer("sentence-transformers/LaBSE")
+    # Charger modèle depuis cache_resource
+    model = load_model()
 
-# Vérifier si embeddings existent déjà
-if os.path.exists(EMBEDDINGS_FILE):
-    print(f"✅ Chargement des embeddings depuis {EMBEDDINGS_FILE}...")
-    embeddings = np.load(EMBEDDINGS_FILE)
-else:
-    print("⚡ Calcul des embeddings (première fois, peut prendre 30s)...")
-    embeddings = model.encode(df["Critique"].tolist(), convert_to_tensor=False)
-    np.save(EMBEDDINGS_FILE, embeddings)
-    print(f"💾 Embeddings sauvegardés dans {EMBEDDINGS_FILE}")
+    # Vérifier si embeddings sont déjà sauvegardés en .npy
+    if os.path.exists(embeddings_file):
+        embeddings = np.load(embeddings_file)
+    else:
+        embeddings = model.encode(df["Critique"].tolist(), convert_to_tensor=False)
+        np.save(embeddings_file, embeddings)
 
-print("Embeddings shape:", embeddings.shape)
-print(f"➡️ Embeddings utilisés : {EMBEDDINGS_FILE}")
+    return df, embeddings
+
+# Test rapide si on exécute directement ce fichier
+if __name__ == "__main__":
+    df, embeddings = load_embeddings("fight_club_clean.csv")
+    print("Embeddings shape:", embeddings.shape)
+    print(df.head())

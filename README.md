@@ -47,5 +47,33 @@ Mon rôle a consisté à :
 
 ---
 
+## 🔹 Choix techniques et justification  
+
+- **Données (CSV)** : critiques de films fournies dans des fichiers CSV (*Fight Club*, *Interstellar*).  
+  - Format léger, facile à manipuler avec **pandas**.  
+
+- **Nettoyage du texte (NLTK + pandas)** : suppression des valeurs manquantes, conversion en chaînes, retrait des stopwords.  
+  - Améliore la **qualité des représentations textuelles**.  
+
+- **Vectorisation sémantique (Sentence-BERT)** : modèle `paraphrase-multilingual-MiniLM-L12-v2`.  
+  - Multilingue (français + anglais), léger et rapide pour un test technique.  
+  - Chaque critique est transformée en vecteur de **384 dimensions**.  
+
+- **Cache embeddings (.npy)** : calcul sauvegardé après la première exécution.  
+  - Permet une **réutilisation immédiate** sans recalcul à chaque lancement.  
+
+- **Calcul de similarité (cosine similarity)** : comparaison des critiques avec une légère pondération selon la différence de **rating**.  
+  - Combine **ressemblance de contenu** et **proximité d’opinion**.  
+
+- **Interface (Streamlit)** : application web interactive permettant de :  
+  - Choisir un **film**  
+  - Sélectionner une **critique**  
+  - Lancer la **recommandation** (5 ou 10 résultats)  
+  - Interface simple et intuitive.  
+
+- **Déploiement (Streamlit Cloud)** : accessible via un **lien public**, sans installation locale.  
+
+---
+
 👨‍💻 Auteur : Ahmad Hussein  
 📅 Projet réalisé dans le cadre d’un **test technique**

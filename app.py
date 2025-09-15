@@ -47,8 +47,10 @@ if selected_review != "-- Choisissez une critique --":
     review_ref = df[df["ID"] == review_id].iloc[0]
     st.markdown("### 📌 Critique sélectionnée")
     st.markdown(f"**{review_ref['User']}** ({review_ref['Rating']}/10) — *{review_ref['Titre']}*")
-    st.write(review_ref["Critique"])
-
+    st.write(review_ref["Critique"][:300] + "...")
+    with st.expander("Voir la critique complète"):
+        st.write(review_ref['Critique'])
+        
     # -----------------------------
     # Étape 4 : choix du nombre de recommandations
     # -----------------------------

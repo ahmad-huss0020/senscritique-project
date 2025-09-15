@@ -6,16 +6,10 @@ import streamlit as st
 
 @st.cache_resource
 def load_model():
-    """Charge le modèle Sentence-BERT une seule fois par session."""
     return SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 @st.cache_data
 def load_embeddings(film_file: str):
-    """
-    Charge un dataset de critiques et ses embeddings (cache .npy + cache Streamlit).
-    film_file : str -> chemin du CSV (ex. "fight_club_clean.csv")
-    return : df (DataFrame), embeddings (numpy array)
-    """
     BASE_DIR = os.path.dirname(__file__)
     embeddings_file = os.path.join(BASE_DIR, film_file.replace(".csv", "_embeddings.npy"))
 

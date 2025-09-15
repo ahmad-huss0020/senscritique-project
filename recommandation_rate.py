@@ -3,10 +3,6 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
 def recommend_semantic_reviews(review_id, df, embeddings, top_n=20, alpha=0.1):
-    """
-    Recommande des critiques similaires en utilisant des embeddings sémantiques
-    (Sentence-BERT), avec une légère pénalisation selon la différence de notes.
-    """
     if review_id not in df["ID"].values:
         print("❌ ID introuvable")
         return pd.DataFrame()

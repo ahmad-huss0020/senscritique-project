@@ -36,7 +36,7 @@ Il s’agit d’une application **Streamlit** permettant de recommander des crit
 
 ## 🤖 Note sur l’utilisation de l’IA  
 
-L’intégralité du projet a été réalisée avec l’aide de ChatGPT afin d’accélérer le développement.  
+Ce projet a été développé en partie avec l’aide de ChatGPT afin d’accélérer le développement et d’améliorer certains aspects du code.
 Mon rôle a consisté à :  
 - Définir l’architecture du projet et les choix techniques (embeddings sémantiques vs TF-IDF, mise en cache, interface Streamlit).  
 - Guider l’IA avec des instructions précises pour obtenir un code adapté aux données fournies.  
